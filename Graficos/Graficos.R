@@ -105,3 +105,86 @@ ggplot(mpg, aes(x = reorder(class, hwy), y = hwy, fill = class)) +
 
 View(data)
 
+# grafico Scatter Plot
+
+ggplot(data, aes(x=my_x, y=my_y)) +
+geom_point(shape=1)
+
+# Adiciona linha de regressao
+ggplot(data, aes(x=my_x, y=my_y)) +    
+  geom_point(shape=1) +  
+  geom_smooth(method = lm , color="red", se=FALSE) 
+
+# Adiciona smooth (intervalo de confianca)
+ggplot(data, aes(x=my_x, y=my_y)) +    
+  geom_point(shape=1) +  
+  geom_smooth(method=lm , color="red", se=TRUE)  
+
+########### Treemap  #####################
+ 
+# Dados
+grupo = c(rep("grupo-1",4), rep("grupo-2",2), rep("grupo-3",3))
+subgrupo = paste("subgroup", c(1,2,3,4,1,2,1,2,3), sep = "-")
+valor = c(13,5,22,12,11,7,3,1,23)
+dados = data.frame(grupo, subgrupo, valor)
+View(dados)
+
+# Labels (customizacao dos dados)
+?treemap
+treemap(dados, 
+        index = c("grupo", "subgrupo"),     
+        vSize = "valor", 
+        type = "index",
+        fontsize.labels = c(15,12),               
+        fontcolor.labels = c("white", "orange"),    
+        fontface.labels = c(2,1),                 
+        bg.labels = 220,             
+        align.labels = list(c("center", "center"), c("right", "bottom")),                                  
+        overlap.labels = 0.5,           
+        inflate.labels = F)
+
+
+# Customizando
+treemap(dados, 
+        index = c("grupo", "subgrupo"), 
+        vSize = "valor", 
+        type = "index",
+        border.col = c("black", "white"),          
+        border.lwds = c(7,2))
+
+########### Histograma  #####################
+
+# Gerando valores para x
+x <- mtcars$mpg 
+
+# Criando o histograma (variavel numerica)
+?hist
+h <- hist(x, 
+          breaks = 10, 
+          col = "red", 
+          xlab = "Milhas Por GalÃ£o", 
+          main = "Histograma com Curva de DistribuiÃ§Ã£o") 
+
+# Customizando o histograma (funcao de densidade de probabilidade)
+xfit <- seq(min(x), max(x), length = 40) 
+yfit <- dnorm(xfit, mean = mean(x), sd = sd(x)) 
+yfit <- yfit*diff(h$mids[1:2])*length(x) 
+lines(xfit, yfit, col = "blue", lwd = 2)
+
+# Usando o ggplot2
+# dataset
+dados = data.frame(value = rnorm(10000)) 
+View(dados)
+
+# Tamanho das colunas
+ggplot(dados, aes(x=value)) + 
+  geom_histogram(binwidth = 0.05)
+
+# Cor uniforme
+ggplot(dados, aes(x=value)) + 
+  geom_histogram(binwidth = 0.2, color="white", fill=rgb(0.2,0.7,0.1,0.4) ) 
+
+# Cor proporcional
+ggplot(dados, aes(x=value)) + 
+  geom_histogram(binwidth = 0.2, aes(fill = ..count..) )
+
