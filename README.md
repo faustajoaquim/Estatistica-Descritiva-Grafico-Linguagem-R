@@ -1,3 +1,3 @@
 # Estatística Descritiva-Gráfico-Linguagem-R
 
- primeiro repositorio com a linguagem R
+ Material desenvolvido no estudo de análise de dados 
